@@ -3,25 +3,27 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Land of Gamers — PS5 &amp; Nintendo Switch Playroom</title>
-  <meta name="description" content="Land of Gamers: rental ruangan PS5 & Nintendo Switch private. Cek jadwal kosong, lihat ruangan & list game, lalu booking langsung via WhatsApp." />
+  <title>Respawn Playroom — PS5 &amp; Nintendo Switch Playroom</title>
+  <meta name="description" content="Rental ruangan PS5 & Nintendo Switch private. Cek jadwal kosong, lihat ruangan & list game, lalu booking langsung via WhatsApp." />
   <meta name="theme-color" content="#1c1240" />
-  <meta property="og:title" content="Land of Gamers — PS5 & Nintendo Switch Playroom" />
+  <meta property="og:title" content="Respawn Playroom — PS5 & Nintendo Switch Playroom" />
   <meta property="og:description" content="Cek jadwal kosong & booking ruangan langsung via WhatsApp." />
-  <meta property="og:image" content="assets/img/logo.jpg" />
-  <link rel="icon" href="assets/img/logo.jpg" />
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
+  <!-- ============ DEMO BANNER (tampil jika DEMO: true) ============ -->
+  <div class="demo-bar" id="demoBar" hidden>Website concept by Nauval Dev · data hanya contoh · <a href="#" id="demoBarLink" target="_blank" rel="noopener">Hubungi</a></div>
+
   <!-- ============ NAVBAR ============ -->
   <header class="nav" id="top">
     <div class="container nav__inner">
-      <a href="#top" class="nav__brand" aria-label="Land of Gamers - beranda">
-        <img src="assets/img/logo.jpg" alt="" width="40" height="40" />
-        <span>Land of Gamers</span>
+      <a href="#top" class="nav__brand" aria-label="Beranda">
+        <img src="assets/img/logo.svg" alt="" width="40" height="40" />
+        <span data-brand>Respawn Playroom</span>
       </a>
       <nav class="nav__links" id="navLinks">
         <a href="#ruangan">Ruangan</a>
@@ -44,7 +46,7 @@
       <div class="deco deco--tri deco--tri2" aria-hidden="true"></div>
       <div class="deco deco--ring" aria-hidden="true"></div>
       <div class="container hero__inner">
-        <img src="assets/img/logo.jpg" alt="Logo Land of Gamers" class="hero__logo" width="220" height="220" />
+        <img src="assets/img/logo.svg" alt="Logo" class="hero__logo" width="220" height="220" />
         <p class="eyebrow">PS5 &amp; Nintendo Switch Playroom</p>
         <h1 class="hero__title">Main bareng di <span class="glow-pink">ruangan</span> <span class="glow-cyan">private</span>.</h1>
         <p class="hero__sub">Cek jadwal kosong secara langsung, pilih ruangan &amp; jamnya, lalu booking via WhatsApp</p>
@@ -151,6 +153,7 @@
             <p class="eyebrow">Mampir yuk</p>
             <h2>Lokasi &amp; Kontak</h2>
             <p class="section__lead">Buka setiap hari pukul <span id="contactHours">09.00–21.00</span>. Ada pertanyaan? Chat admin aja.</p>
+            <p class="contact__addr" id="contactAddr"></p>
           </div>
           <div class="contact__actions">
             <a class="btn btn--cyan" id="mapsLink" target="_blank" rel="noopener">Buka Google Maps</a>
@@ -164,7 +167,7 @@
 
   <footer class="footer">
     <div class="container footer__inner">
-      <span>© <span id="year"></span> Land of Gamers</span>
+      <span>© <span id="year"></span> <span data-brand>Respawn Playroom</span></span>
       <span id="footerContact"></span>
     </div>
   </footer>

@@ -1,20 +1,31 @@
 /**
- * KONFIGURASI WEBSITE LAND OF GAMERS
+ * KONFIGURASI WEBSITE
  * Ubah nilai di sini saja, tidak perlu menyentuh app.js.
  */
 window.LOG_CONFIG = {
-  // URL Web App Apps Script (lihat README). Kosongkan = pakai data dummy (mode demo).
+  // Nama bisnis (dipakai di navbar, footer & pesan WhatsApp).
+  BRAND_NAME: 'Respawn Playroom',
+
+  // URL Web App Apps Script (lihat README). Kosongkan = pakai data contoh dari data.js.
   API_URL: '',
 
-  // Nomor WA admin, format internasional tanpa "+" / "0" di depan.
-  WA_NUMBER: '6287887614242',
-  WA_DISPLAY: '0878-8761-4242',
+  /* ---------- MODE DEMO / PORTFOLIO ----------
+   * true  = tampilkan banner "Website concept", tombol booking memunculkan
+   *         pratinjau pesan WA + ajakan menghubungi developer.
+   * false = website sungguhan: tombol booking langsung membuka WhatsApp admin.
+   */
+  DEMO: true,
+  DEV_NAME: 'Nauval Dev',
+  // Link kontak developer. Bisa wa.me/62xxxx atau DM Instagram.
+  DEV_CONTACT_URL: 'https://ig.me/m/nauval_dev',
 
-  INSTAGRAM_URL: 'https://www.instagram.com/landofgamers.id',
-  INSTAGRAM_HANDLE: '@landofgamers.id',
-
-  // TODO: isi dengan link Google Maps Land of Gamers yang asli.
-  MAPS_URL: 'https://maps.google.com/?q=Land+of+Gamers',
+  // Kontak bisnis — dipakai hanya saat DEMO: false. Kosongkan untuk menyembunyikan tombolnya.
+  WA_NUMBER: '',            // format 62xxxxxxxxxx
+  WA_DISPLAY: '',
+  INSTAGRAM_URL: '',
+  INSTAGRAM_HANDLE: '',
+  MAPS_URL: '',
+  ADDRESS: 'Jl. Contoh Raya No. 12, Bandung',
 
   // Jam operasional (format 24 jam). Slot terakhir = CLOSE_HOUR - 1.
   OPEN_HOUR: 9,

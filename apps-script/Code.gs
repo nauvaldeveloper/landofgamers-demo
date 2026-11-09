@@ -1,5 +1,5 @@
 /**
- * LAND OF GAMERS — Backend jadwal berbasis Google Sheets
+ * PLAYROOM BOOKING — Backend jadwal berbasis Google Sheets
  *
  * Cara pakai singkat (detail di README.md):
  *  1. Buat Google Sheet baru → Extensions → Apps Script → paste file ini.
@@ -21,7 +21,7 @@ const OPEN_HOUR = 9;
 const CLOSE_HOUR = 21;
 
 const BOOKING_HEADERS = ['Tanggal', 'Ruangan', 'Mulai', 'Selesai', 'Nama', 'No WA', 'Status', 'Catatan'];
-const ROOM_HEADERS = ['Nama', 'Tipe', 'Lantai', 'Harga/Jam', 'Harga 3 Jam', 'Kapasitas', 'Game (pisah koma)', 'Link Reel IG', 'Fasilitas (pisah koma)', 'Deskripsi', 'Aktif'];
+const ROOM_HEADERS = ['Nama', 'Tipe', 'Lantai', 'Harga/Jam', 'Harga 3 Jam', 'Kapasitas', 'Game (pisah koma)', 'Link Reel IG / Foto', 'Fasilitas (pisah koma)', 'Deskripsi', 'Aktif'];
 const STATUS_ACTIVE = ['Hold', 'Lunas'];        // status yang membuat slot tampil "terbooking"
 const STATUS_ALL = ['Hold', 'Lunas', 'Batal'];
 
@@ -175,17 +175,14 @@ function styleHeader_(sh, n) {
 }
 
 function defaultRooms_() {
-  const REEL_VIP = 'https://www.instagram.com/reel/C4Vfa8Wrssd/';
-  const REEL_REG = 'https://www.instagram.com/reel/C4hrgGFrJC9/';
-  const REEL_NS = 'https://www.instagram.com/reel/DSJZvdRE4AH/';
   const GAME_TODO = 'ISI LIST GAME, pisahkan dengan koma';
-  const vipPs = (n) => ['VIP ' + n, 'VIP PS', '', 34000, 96000, 6, GAME_TODO, REEL_VIP, 'Ruangan private, PS5, Netflix, AC', 'Ruangan private PS5 lengkap dengan Netflix.', true];
-  const reg = (n) => ['Reguler ' + n, 'Reguler PS', '', 22000, 60000, 4, GAME_TODO, REEL_REG, 'Open space bersekat, PS5', 'Spot PS5 open space dengan sekat.', true];
-  const vipNs = (n, lt) => ['VIP ' + n, 'VIP Nintendo', lt, 34000, 96000, 6, GAME_TODO, REEL_NS, 'Ruangan private, Nintendo Switch, Netflix, AC', 'Ruangan private Nintendo Switch di lantai ' + lt + '.', true];
+  const vipPs = (n) => ['VIP ' + n, 'VIP PS', '1', 35000, 95000, 6, GAME_TODO, '', 'Ruangan private, PS5, Netflix, AC', 'Ruangan private PS5 lengkap dengan Netflix.', true];
+  const reg = (n) => ['Reguler ' + n, 'Reguler PS', '1', 20000, 55000, 4, GAME_TODO, '', 'Open space bersekat, PS5', 'Spot PS5 open space dengan sekat.', true];
+  const vipNs = (name, lt) => [name, 'VIP Switch', lt, 35000, 95000, 6, GAME_TODO, '', 'Ruangan private, Nintendo Switch, Netflix, AC', 'Ruangan private Nintendo Switch di lantai ' + lt + '.', true];
   return [
     vipPs(1), vipPs(2), vipPs(3), vipPs(4),
     reg(1), reg(2), reg(3), reg(4),
-    ['VIP Mario', 'VIP Nintendo', '2', 50000, 140000, 8, GAME_TODO, REEL_NS, 'Ruangan private, PS5 + Nintendo Switch, Netflix, Ruangan paling luas', 'Ruangan VIP terbesar: PS5 dan Nintendo Switch sekaligus.', true],
-    vipNs('Luigi', '2'), vipNs('May', '1'), vipNs('Cody', '1'), vipNs('Astro', '1'),
+    ['VIP Arcade', 'VIP Switch', '2', 50000, 135000, 8, GAME_TODO, '', 'Ruangan private, PS5 + Nintendo Switch, Netflix, Ruangan paling luas', 'Ruangan VIP terbesar: PS5 dan Nintendo Switch sekaligus.', true],
+    vipNs('VIP Neon', '2'), vipNs('VIP Pixel', '2'), vipNs('VIP Retro', '1'), vipNs('VIP Turbo', '1'),
   ];
 }

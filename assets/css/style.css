@@ -1,5 +1,5 @@
 /* =========================================================
-   LAND OF GAMERS — neon purple / pink / cyan
+   PLAYROOM BOOKING — neon purple / pink / cyan
    ========================================================= */
 :root {
   --bg: #1c1240;
@@ -23,6 +23,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; scroll-padding-top: 72px; }
 body {
   margin: 0;
@@ -396,3 +397,14 @@ input::placeholder { color: #8d81b5; }
   opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; max-width: calc(100% - 32px);
 }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- Demo (portfolio) ---------- */
+.demo-bar { background: var(--bg-2); border-bottom: 1px solid var(--line); color: var(--muted); font-size: .8rem; text-align: center; padding: 6px 16px; }
+.demo-bar a { color: var(--cyan); }
+.contact__addr { margin-top: 8px; font-weight: 600; }
+.demo-modal { display: flex; flex-direction: column; gap: 14px; grid-column: 1 / -1; max-width: 520px; margin: 0 auto; width: 100%; }
+.demo-modal h2 { font-size: 1.4rem; }
+.demo-modal p { color: var(--muted); }
+.wa-preview { background: #0b141a; border-radius: 12px; padding: 16px; }
+.wa-preview__bubble { margin-left: auto; max-width: 92%; background: #005c4b; color: #e9edef; border-radius: 10px 10px 4px 10px; padding: 10px 12px 6px; white-space: pre-wrap; font-size: .9rem; line-height: 1.45; }
+.wa-preview__bubble time { display: block; text-align: right; font-size: .7rem; color: rgba(233,237,239,.6); }

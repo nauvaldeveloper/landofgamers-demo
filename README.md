@@ -1,7 +1,19 @@
-# Land of Gamers — Website
+# Playroom Booking — Website Concept
 
-Landing page + jadwal live + booking via WhatsApp untuk Land of Gamers.
+Website concept by **Nauval Dev**: landing page + jadwal live + booking via WhatsApp untuk bisnis
+rental/playroom PS5 & Nintendo Switch. Merek ("Respawn Playroom"), ruangan, harga & list game semuanya fiktif.
+
 Frontend HTML/CSS/JS biasa (tanpa build tool), data jadwal dari Google Sheets lewat Apps Script.
+
+## Mode demo vs website sungguhan
+
+Di `assets/js/config.js`:
+
+- `DEMO: true` (default): baris kecil "Website concept" tampil di atas, tombol **Booking via WhatsApp** memunculkan
+  pratinjau pesan WA (tidak mengirim ke siapa pun). Link "Hubungi" mengarah ke `DEV_CONTACT_URL`.
+- `DEMO: false` + isi `WA_NUMBER`: tombol booking langsung membuka WhatsApp admin bisnis.
+
+Untuk dipakai klien: ganti `BRAND_NAME`, logo (`assets/img/logo.svg`), kontak, lalu set `DEMO: false`.
 
 ```
 index.html
@@ -10,7 +22,7 @@ assets/
   js/config.js     ← SEMUA pengaturan (URL API, no WA, Maps, jam buka)
   js/data.js       ← data dummy untuk mode demo
   js/app.js        ← logika website
-  img/logo.jpg
+  img/logo.svg
 apps-script/Code.gs ← backend Google Sheets
 ```
 
@@ -18,9 +30,11 @@ apps-script/Code.gs ← backend Google Sheets
 
 Buka `index.html` langsung di browser. Selama `API_URL` di `config.js` masih kosong, website memakai data contoh dari `data.js`.
 
+Foto ruangan bisa ditambahkan lewat field `image` (URL) di data/Sheet. Tanpa foto, kartu memakai cover grafis otomatis.
+
 ## Hubungkan ke Google Sheets
 
-1. Buat Google Sheet baru (pakai akun Google milik Land of Gamers).
+1. Buat Google Sheet baru (pakai akun Google milik bisnisnya).
 2. **Extensions → Apps Script**, hapus isi default, lalu paste isi `apps-script/Code.gs`. Simpan.
 3. Pilih fungsi **`setupSheet`** → **Run** → izinkan akses. Tab `Booking` & `Ruangan` dibuat otomatis lengkap dengan dropdown.
 4. Di tab **Ruangan**, ganti kolom *Game* dengan list game asli tiap ruangan (pisahkan dengan koma).
@@ -37,7 +51,7 @@ Tab **Booking**, satu baris = satu booking:
 
 | Tanggal | Ruangan | Mulai | Selesai | Nama | No WA | Status | Catatan |
 |---|---|---|---|---|---|---|---|
-| 08/11/2026 | VIP Cody | 11:00 | 14:00 | Nauval | 08xx | Lunas | |
+| 08/11/2026 | VIP Retro | 11:00 | 14:00 | Budi | 08xx | Lunas | |
 
 - **Status `Hold`** → customer sudah konfirmasi, menunggu transfer (slot tampil terbooking).
 - **Status `Lunas`** → sudah bayar.
@@ -51,10 +65,3 @@ Ruangan bisa disembunyikan sementara (mis. maintenance) dengan menghapus centang
 ## Hosting
 
 Upload seluruh folder ini ke Netlify / Vercel / GitHub Pages (static hosting, gratis). Domain custom bisa dipasang menyusul.
-
-## Yang masih perlu diisi
-
-- [ ] `MAPS_URL` di `config.js` (link Google Maps asli)
-- [ ] List game asli per ruangan (di Sheet; `data.js` masih contoh)
-- [ ] Lantai untuk ruangan VIP PS & Reguler (opsional)
-- [ ] Foto ruangan (opsional; saat ini memakai embed reels Instagram)

@@ -1,5 +1,5 @@
 /* =========================================================
-   LAND OF GAMERS — app logic (vanilla JS, no build step)
+   PLAYROOM BOOKING — app logic (vanilla JS, no build step)
    ========================================================= */
 (function () {
   'use strict';
@@ -40,6 +40,7 @@
       games: list(r.games),
       features: list(r.features),
       reel: r.reel || '',
+      image: r.image || '',
       description: r.description || '',
     };
   }
@@ -70,7 +71,7 @@
       validateSelection();
       renderAll();
       const t = state.updatedAt.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-      setSync(`${CFG.API_URL ? '' : '<b>Mode demo</b> (data contoh) · '}Diperbarui ${t} · <button type="button" id="refreshBtn">Muat ulang</button>`);
+      setSync(`${CFG.API_URL ? '' : 'Data contoh · '}Diperbarui ${t} · <button type="button" id="refreshBtn">Muat ulang</button>`);
     } catch (err) {
       console.error(err);
       setSync(`Gagal memuat jadwal. <button type="button" id="refreshBtn">Coba lagi</button> atau chat admin via WhatsApp.`);
@@ -87,7 +88,8 @@
   /* ---------------- Helpers ---------------- */
   const types = () => ['Semua', ...new Set(state.rooms.map((r) => r.type))];
   const roomByName = (name) => state.rooms.find((r) => r.name === name);
-  const kindOf = (r) => (/ps/i.test(r.type) && !/nintendo/i.test(r.type) ? 'ps' : 'ns');
+  const kindOf = (r) => (/ps/i.test(r.type) && !/nintendo|switch/i.test(r.type) ? 'ps' : 'ns');
+
   const isBooked = (date, room, h) => state.occupied.get(`${date}|${room}`)?.has(h) || false;
   const isPast = (date, h) => {
     const now = new Date();
@@ -129,7 +131,7 @@
     );
 
     if (!list.length) {
-      $('#roomGrid').innerHTML = `<p class="empty">Belum ada ruangan dengan game "<b>${esc(state.search)}</b>". Coba tanya admin via WhatsApp ya.</p>`;
+      $('#roomGrid').innerHTML = `<p class="empty">Belum ada ruangan dengan game "<b>${esc(state.search)}</b>". Coba kata kunci lain ya.</p>`;
       return;
     }
 
@@ -288,7 +290,7 @@
     const room = roomByName(sel.room);
     const { total, normal } = priceFor(room, sel.duration);
     const lines = [
-      'Halo Land of Gamers, saya mau booking 🎮',
+      `Halo ${CFG.BRAND_NAME}, saya mau booking 🎮`,
       '',
       `Nama: ${name}`,
       `Ruangan: ${room.name} (${room.type})${room.floor ? ` - Lantai ${room.floor}` : ''}`,
@@ -331,10 +333,28 @@
         ${r.reel ? `<a class="btn btn--ghost btn--sm" href="${esc(r.reel)}" target="_blank" rel="noopener">Buka di Instagram</a>` : ''}
         <button class="btn btn--pink" data-book="${esc(r.name)}" data-close>Cek Jadwal ${esc(r.name)}</button>
       </div>`;
+    showModal();
+  }
+
+  function showModal() {
     $('#modal').classList.add('open');
     $('#modal').setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     $('.modal__close').focus();
+  }
+
+  // Mode demo: tampilkan pratinjau pesan WA + ajakan menghubungi developer.
+  function openDemoPreview(text) {
+    const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    $('#modalBody').innerHTML = `
+      <div class="demo-modal">
+        <p class="eyebrow">Mode demo</p>
+        <h2 id="modalTitle">Pesan ini yang akan diterima admin</h2>
+        <div class="wa-preview"><div class="wa-preview__bubble">${esc(text)}<time>${time} ✓✓</time></div></div>
+        <p>Di versi aslinya, tombol ini langsung membuka WhatsApp admin dengan pesan di atas.</p>
+        <button class="btn btn--pink" data-close>Tutup</button>
+      </div>`;
+    showModal();
   }
 
   function closeModal() {
@@ -370,12 +390,27 @@
     const hours = `${hourLabel(CFG.OPEN_HOUR)}–${hourLabel(CFG.CLOSE_HOUR)}`;
     $('#heroHours').textContent = `${pad(CFG.OPEN_HOUR)}–${pad(CFG.CLOSE_HOUR)}`;
     $('#contactHours').textContent = hours;
-    $('#mapsLink').href = CFG.MAPS_URL;
-    $('#waLink').href = waLink('Halo Land of Gamers, saya mau tanya-tanya dulu 🙌');
-    $('#igLink').href = CFG.INSTAGRAM_URL;
-    $('#igLink').textContent = 'Instagram ' + CFG.INSTAGRAM_HANDLE;
+    $('#contactAddr').textContent = CFG.ADDRESS || '';
+    document.querySelectorAll('[data-brand]').forEach((el) => { el.textContent = CFG.BRAND_NAME; });
+    document.title = `${CFG.BRAND_NAME} — PS5 & Nintendo Switch Playroom`;
+
+    // Tombol kontak: tampil hanya jika datanya diisi di config.
+    const setLink = (id, url, label) => {
+      const el = $(id);
+      if (!url) { el.hidden = true; return; }
+      el.href = url;
+      if (label) el.textContent = label;
+    };
+    setLink('#mapsLink', CFG.MAPS_URL);
+    setLink('#waLink', CFG.WA_NUMBER && waLink(`Halo ${CFG.BRAND_NAME}, saya mau tanya-tanya dulu 🙌`));
+    setLink('#igLink', CFG.INSTAGRAM_URL, CFG.INSTAGRAM_HANDLE ? 'Instagram ' + CFG.INSTAGRAM_HANDLE : 'Instagram');
     $('#year').textContent = new Date().getFullYear();
-    $('#footerContact').textContent = `WA ${CFG.WA_DISPLAY} · ${CFG.INSTAGRAM_HANDLE}`;
+    $('#footerContact').textContent = [CFG.WA_DISPLAY && `WA ${CFG.WA_DISPLAY}`, CFG.INSTAGRAM_HANDLE].filter(Boolean).join(' · ');
+
+    if (CFG.DEMO) {
+      $('#demoBar').hidden = false;
+      $('#demoBarLink').href = CFG.DEV_CONTACT_URL;
+    }
   }
 
   function renderAll() {
@@ -442,7 +477,9 @@
       const name = input.value.trim();
       if (!name) { input.classList.add('invalid'); input.focus(); toast('Isi nama dulu ya 🙏'); return; }
       try { localStorage.setItem('log_name', name); } catch (_) { /* ignore */ }
-      window.open(waLink(buildWAMessage(name)), '_blank', 'noopener');
+      const msg = buildWAMessage(name);
+      if (CFG.DEMO || !CFG.WA_NUMBER) { openDemoPreview(msg); return; }
+      window.open(waLink(msg), '_blank', 'noopener');
     });
     try { $('#custName').value = localStorage.getItem('log_name') || ''; } catch (_) { /* ignore */ }
 

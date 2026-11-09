@@ -393,7 +393,10 @@
       const open = $('.nav').classList.toggle('open');
       $('#navToggle').setAttribute('aria-expanded', open);
     });
-    $('#navLinks').addEventListener('click', (e) => { if (e.target.closest('a')) $('.nav').classList.remove('open'); });
+    const closeNav = () => { $('.nav').classList.remove('open'); $('#navToggle').setAttribute('aria-expanded', 'false'); };
+    $('#navLinks').addEventListener('click', (e) => { if (e.target.closest('a')) closeNav(); });
+    // Tap di luar menu (area gelap) → tutup menu
+    document.addEventListener('click', (e) => { if ($('.nav').classList.contains('open') && !e.target.closest('.nav__links, #navToggle')) closeNav(); });
 
     // Room filters & search
     $('#roomTabs').addEventListener('click', (e) => {
